@@ -14,7 +14,7 @@ class Author(db.Model):
         if len(phone_number) != 10 or not phone_number.isdigit():
             raise ValueError("Phone number must be exactly 10 digits")
         # Check uniqueness
-        if db.session.query(Author).filter_by(name=name).first():
+        if db.inspect(db.engine).has_table('authors') and db.session.query(Author).filter_by(name=name).first():
             raise ValueError(f"Author with name '{name}' already exists")
 
         self.name = name
